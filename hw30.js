@@ -1,62 +1,47 @@
 "use strict";
-let number1 = 10;
-let str1 = "aby";
-let minCharNumb = 97;
-let maxCharNumber = 122;
+const aCodeAscii = 'a'.charCodeAt(0);
+const zCodeAscii = 'z'.charCodeAt(0);
+const nEnglishLetters = zCodeAscii - aCodeAscii + 1;
 function shiftCipher(str, shift = 1) {
-    let letterArr = Array.from(str);
-    let charArr = letterArr.map.call(str, (e) => e.charCodeAt(0));
-    //   console.log(charArr);
-    let shiftedCharArr = charArr.map((el) => {
-        let res = el + shift;
-        if (res > maxCharNumber) {
-            do {
-                let over = res - maxCharNumber;
-                var goal = minCharNumb + over - 1;
-            } while (res < maxCharNumber && res > minCharNumb);
-            //   let over = res - maxCharNumber;
-            //   let goal = minCharNumb + over - 1;
-            return goal;
-        }
-        return res;
-    });
-    //   console.log(shiftedCharArr);
-    let shiftedLetters = [];
-    for (let i = 0; i < shiftedCharArr.length; i++) {
-        shiftedLetters.push(String.fromCharCode(shiftedCharArr[i]));
-    }
-    let endstring = shiftedLetters.join("");
-    //   console.log(shiftedLetters);
-    return endstring;
+    return cipherDecipher(str, shift, mapperCipher);
 }
-function shiftDeCipher(str, shift = 1) {
-    let letterArr = Array.from(str);
-    let charArr = letterArr.map.call(str, (e) => e.charCodeAt(0));
-    //   console.log(charArr);
-    let shiftedCharArr = charArr.map((el) => {
-        let res = el - shift;
-        if (res < minCharNumb) {
-            let over = minCharNumb - res;
-            let goal = maxCharNumber - over + 1;
-            return goal;
+function shiftDecipher(str, shift = 1) {
+    return cipherDecipher(str, shift, mapperDecipher);
+}
+function cipherDecipher(str, shift, mapperFun) {
+    //const arStr: string[] = Array.from(str);
+    const arStr = Array.from(str);
+    const arRes = arStr.map(symb => {
+        let res = symb;
+        if (symb <= 'z' && symb >= 'a') {
+            res = mapperFun(symb, shift);
         }
         return res;
     });
-    //   console.log(shiftedCharArr);
-    let shiftedLetters = [];
-    for (let i = 0; i < shiftedCharArr.length; i++) {
-        shiftedLetters.push(String.fromCharCode(shiftedCharArr[i]));
-    }
-    let endstring = shiftedLetters.join("");
-    //   console.log(shiftedLetters);
-    return endstring;
+    return arRes.join('');
+}
+function mapperCipher(symb, shift) {
+    const actualShift = (symb.charCodeAt(0) - aCodeAscii + shift) % nEnglishLetters;
+    return String.fromCharCode(aCodeAscii + actualShift);
+}
+function mapperDecipher(symb, shift) {
+    const actualShift = (zCodeAscii - symb.charCodeAt(0) + shift) % nEnglishLetters;
+    return String.fromCharCode(zCodeAscii - actualShift);
 }
 console.log(shiftCipher("abz", 1000));
-console.log(shiftCipher(str1, number1));
-console.log(shiftCipher("kakdela", 5));
-console.log(shiftCipher("abz", 27));
-console.log(shiftDeCipher("kli", number1));
-console.log(shiftDeCipher("pfpijqf", 5));
-console.log(shiftDeCipher("efgh", 4));
-console.log(shiftDeCipher("bcdefgh"));
+console.log(shiftDecipher("mnl", 1000));
+function testCipherDecipher(data, testName) {
+    console.log(`${"*".repeat(10)}${testName}${"*".repeat(10)}`);
+    const funForTest = testName === "cipherTest" ? shiftCipher : shiftDecipher;
+    data.forEach((obj => console.log(`str= ${obj.str} , shift = ${obj.shift || 1} 
+   =>  ${funForTest(obj.str, obj.shift)} `)));
+}
+const dataForCipherTest = [
+    { str: "abc" }, { str: "abz", shift: 1000 }
+];
+testCipherDecipher(dataForCipherTest, "cipherTest");
+const dataForDecipherTest = [
+    { str: "bcd" }, { str: "mnl", shift: 1000 }
+];
+testCipherDecipher(dataForDecipherTest, "dicipherTest");
 //# sourceMappingURL=hw30.js.map

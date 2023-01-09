@@ -1,68 +1,56 @@
-let number1: number = 10;
-let str1: string = "aby";
-let minCharNumb = 97;
-let maxCharNumber = 122;
+const aCodeAscii: number = 'a'.charCodeAt(0);
+const zCodeAscii: number = 'z'.charCodeAt(0);
+const nEnglishLetters: number = zCodeAscii - aCodeAscii + 1;
 
-function shiftCipher(str: string, shift: number = 1): string {
-  let letterArr = Array.from(str);
-  let charArr = letterArr.map.call(str, (e) => e.charCodeAt(0));
-//   console.log(charArr);
-  let shiftedCharArr = charArr.map((el) => {
-    let res = el + shift;
-    if (res > maxCharNumber) {
+function shiftCipher(str: string, shift: number = 1): string{
+  return cipherDecipher(str,shift, mapperCipher);
+}
+function shiftDecipher(str: string, shift: number = 1): string {
+  return cipherDecipher(str, shift, mapperDecipher);
+}
+type MapperFunction = (symb: string, shift: number) =>string;
+function cipherDecipher(str: string,shift :number, mapperFun: MapperFunction): string {
 
-        do {
-            let over = res - maxCharNumber;
-            var goal = minCharNumb + over - 1;
-          } while (res < maxCharNumber && res > minCharNumb);
+//const arStr: string[] = Array.from(str);
 
-    //   let over = res - maxCharNumber;
-    //   let goal = minCharNumb + over - 1;
-      return goal;
+  const arStr: Array<string> = Array.from(str);
+  const arRes: Array<string> = arStr.map(symb =>{
+    let res: string = symb;
+    if(symb <= 'z' && symb >= 'a') {
+      res = mapperFun(symb , shift);
     }
     return res;
-  });
-//   console.log(shiftedCharArr);
-  let shiftedLetters = [];
-  for (let i = 0; i < shiftedCharArr.length; i++) {
-    shiftedLetters.push(String.fromCharCode(shiftedCharArr[i]));
-  }
-  let endstring:string = shiftedLetters.join("");
-//   console.log(shiftedLetters);
-  return endstring;
+  })
+  return arRes.join('');
+}
+function mapperCipher(symb: string, shift:number): string{
+  const actualShift: number = (symb.charCodeAt(0)- aCodeAscii+ shift) % nEnglishLetters;
+  return String.fromCharCode(aCodeAscii + actualShift);
+}
+function mapperDecipher(symb:string, shift:number): string {
+  const actualShift: number = (zCodeAscii -  symb.charCodeAt(0) + shift) % nEnglishLetters;
+  return String.fromCharCode(zCodeAscii - actualShift);
 }
 
-function shiftDeCipher(str:string , shift:number = 1):string {
-    let letterArr = Array.from(str);
-    let charArr = letterArr.map.call(str, (e) => e.charCodeAt(0));
-  //   console.log(charArr);
-    let shiftedCharArr = charArr.map((el) => {
-      let res = el - shift;
-      if (res < minCharNumb) {
-
-
-        let over = minCharNumb - res;
-        let goal = maxCharNumber - over + 1;
-        return goal;
-      }
-      return res;
-    });
-  //   console.log(shiftedCharArr);
-    let shiftedLetters = [];
-    for (let i = 0; i < shiftedCharArr.length; i++) {
-      shiftedLetters.push(String.fromCharCode(shiftedCharArr[i]));
-    }
-    let endstring:string = shiftedLetters.join("");
-  //   console.log(shiftedLetters);
-    return endstring;
+console.log(shiftCipher("abz" , 1000));
+console.log(shiftDecipher("mnl" , 1000))
+type TestObj = {
+  str: string,
+  shift:number}
+function testCipherDecipher(data: Array<TestObj>, testName : string): void {
+  console.log(`${"*".repeat(10)}${testName}${"*".repeat(10)}`)
+  const funForTest: (str : string, shift?:number) => string
+   = testName === "cipherTest" ? shiftCipher:  shiftDecipher;
+   data.forEach((obj => console.log(`str= ${obj.str} , shift = ${obj.shift || 1} 
+   =>  ${funForTest(obj.str,obj.shift)} `)))
 }
- console.log(shiftCipher("abz", 1000));
- console.log(shiftCipher(str1, number1));
- console.log(shiftCipher("kakdela", 5));
- console.log(shiftCipher("abz",27));
+const dataForCipherTest:Array<TestObj> = [
+  {str: "abc"}, {str: "abz",shift: 1000}
+];
+ testCipherDecipher(dataForCipherTest, "cipherTest");
 
+ const dataForDecipherTest:Array<TestObj> = [
+  {str: "bcd"}, {str: "mnl",shift: 1000}
+];
 
- console.log(shiftDeCipher("kli", number1));
- console.log(shiftDeCipher("pfpijqf", 5));
- console.log(shiftDeCipher("efgh", 4));
- console.log(shiftDeCipher("bcdefgh"));
+testCipherDecipher(dataForDecipherTest, "dicipherTest");
