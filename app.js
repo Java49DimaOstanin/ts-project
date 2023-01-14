@@ -1,33 +1,29 @@
 "use strict";
-// // for(let i = 0; i< 3 ; i++){
-// //     setTimeout(() => console.log(i))
-// // }
-// // let a  = 10;
-// // console.log(`a = ${a}`)
-// // variable
-// let hello = "world";
-// const vasya = "vasya";
-// const b = 10;
-// let c : string;
-// c = "20"
-// function getRandomNumber(min:number, max:number):number {
-//     return Math.floor(min + Math.random() * (max - min + 1));
-// }
-// // hw 30
-// function shiftCipher(str:string , shift:number = 1):string {
-//     //todo
-//     // for each lower case letter (a-z ) 
-//     // you should perform code ASCII on given shift 
-//     // shift should be in cicle of lower case letter
-//     // code ASCII  'z' + 2 = b ASCII
-//     // examples : 
-//     // shiftCipher ("abz.", 3) => "dec."
-//     return "";
-// }
-// function shiftDeCipher(str:string , shift:number = 1):string {
-//     return " ";
-// }
-// let str = "abc";
-// let charStrArr = Array.from(str).map(e => e.charCodeAt)
-// console.log(charStrArr);
+// import { Shape } from "./ShapeInterface";
+// import { Rectangle } from "./Rectangle";
+// import { Square } from "./Square";
+Object.defineProperty(exports, "__esModule", { value: true });
+const WageEmployee_1 = require("./WageEmployee");
+// import { Ciphering } from "./CipheringInterface";
+// import { CipherDecipher } from "./CipherDecipher";
+// import { ShapesContainer } from "./ShapesContainer";
+// const shapes: ShapesContainer = new ShapesContainer ([
+//     new Rectangle(3,4),
+//     new Square(5),
+//     new ShapesContainer([new ShapesContainer([new Square(4), new Square(10)]), new Rectangle(6,4)])
+// ]);
+// const sumOfShapes: number = shapes.getSquare();
+// console.log(sumOfShapes);
+// // const crypt :Array<Ciphering> = [
+// //     new CipherDecipher(97,122,1),
+// //     new CipherDecipher(97,122,1000)
+// // ];
+// // const incrypted: string = crypt.reduce((res,cur) =>res + cur.getCipher("abc"),"");
+// // console.log(incrypted);
+// // const crypt:Ciphering = new CipherDecipher(97,122,1);
+// // let incrypted:string = crypt.getCipher("abc");
+// // console.log(incrypted);
+const employee = new WageEmployee_1.WageEmployee(123, "PEtya", 1998, "QA", 1000, 100, 50);
+console.log(employee.id);
+employee.basicSalary = 6000;
 //# sourceMappingURL=app.js.map
