@@ -3,6 +3,9 @@
 // import { Square } from "./Square";
 
 import { WageEmployee } from "./WageEmployee";
+import { Employee } from "./Employee";
+import { SalesPerson } from "./SalesPerson";
+import { Company } from "./Company";
 
 // import { Ciphering } from "./CipheringInterface";
 // import { CipherDecipher } from "./CipherDecipher";
@@ -29,6 +32,31 @@ import { WageEmployee } from "./WageEmployee";
 // // console.log(incrypted);
 
 
-const employee:WageEmployee = new WageEmployee(123,"PEtya",1998,"QA",1000,100,50);
-console.log(employee.id);
-employee.basicSalary = 6000;
+const employee1:WageEmployee = new WageEmployee(1,"Pique",1998,"QA",10000,100,50);
+const employee2:WageEmployee = new WageEmployee(2,"Shakira",1985,"Singer",5000,100,80);
+const employee3:SalesPerson  = new SalesPerson(3,"Messi",1986,"Player",25000,100,100,50,10);
+
+console.log("get salary 3 ", employee3.computeSalary());
+
+
+const company:Company = new Company([]);
+company.addEmployee(employee1);
+console.log("get Employee id 1 ", company.getEmployee(1));
+company.addEmployee(employee2);
+company.addEmployee(employee3);
+company.addEmployee(new SalesPerson(4,"Ronaldo",1984,"Player",45000,90,100,40,15));
+
+console.log("get Employee id 4 ", company.getEmployee(4));
+console.log("get remove Employee 4 ", company.removeEmployee(4));
+// company.removeEmployee(4);
+console.log("get remove Employee 4 ", company.removeEmployee(4));
+console.log("get Employee id 2 ", company.getEmployee(2));
+console.log("get Employee id 3 ", company.getEmployee(3));
+
+const res:Employee[] = company.getEmployeeBySalary(15000,60000);
+res.forEach(element => console.log(element.name, element.computeSalary()));
+
+console.log("get by Salary ",company.getEmployeeBySalary(1000,30000));
+
+console.log("Computer Budget ",company.computerBudget());
+
